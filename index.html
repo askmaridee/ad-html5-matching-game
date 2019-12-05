@@ -1,0 +1,668 @@
+<div id="hc_richmedia">
+    <meta name="viewport" content="width=device-width">
+	<script type="text/javascript">
+		if(!window.jQuery || !window.$) {
+			document.write('\x3Cscript src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript">\x3C/script>');
+		}
+	</script>
+	<script type="text/javascript" src="mraid.js"></script>
+	<style type="text/css">
+	body {margin: 0px;}
+	#hc_richmedia {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+		font-family: Helvetica,Arial,sans-serif;
+      /*border:solid 1px red;*/
+	}
+	#hc_richmedia .hc_initial_view {
+		position:relative;
+		z-index:1;
+	}
+	#hc_richmedia .hc_content {
+		background: url('images/florida/33958.png') no-repeat top left;
+		position:relative;
+		width:300px;
+		height: 428px;
+		overflow: hidden;
+		text-align:center;
+		z-index:1;
+	}
+	#hc_richmedia .hc_closebtn {
+		position:absolute;
+		top:0;
+		right:0;
+		z-index:2;
+		cursor:pointer;
+	}
+	#hc_richmedia .hc_closebtn img {
+		position:relative;
+		z-index:20;
+	}
+	#hc_richmedia .hc_content h3 {
+		margin-top:0;
+	}
+	#hc_richmedia .hc_blockimg {
+		display:block;
+	}
+	a img {border: none;}
+
+	/* custom styles */
+	#header {
+		width: 100%;
+		height: 118px;
+	}
+	#directions, #win, #try_again, #info {
+		position: absolute;
+		top: 115px;
+		z-index: 5;
+	}
+	#play_again {
+		position: absolute;
+		top: 270px;
+		left: 10px;
+		z-index: 10;
+	}
+	#info {
+		height: 313px;
+		overflow: scroll;
+		z-index: 6;
+	}
+	#timer {
+		background: url('images/florida/33972.png') no-repeat top left;
+		background-size: cover;
+		position:relative;
+		width: 130px;
+		height: 40px;
+		text-align: center;
+		z-index: 1; 
+		top: 45px;
+		left: 145px;
+		padding-top: 12px;
+		font-size: 14px;
+	}
+	.timer_left {
+		font-size: 34px;
+	}
+	
+	/* match game */
+	#card_field {
+	  -webkit-perspective: 1000;
+	     -moz-perspective: 1000;
+	       -o-perspective: 1000;
+	          perspective: 1000;
+	}
+	
+	.card, .back, .front {
+	  width: 70px;
+	  height: 70px;
+	}
+	
+	.card {
+	  -webkit-transition: 0.8s;
+	     -moz-transition: 0.8s;
+	      -ms-transition: 0.8s;
+	       -o-transition: 0.8s;
+	          transition: 0.8s;
+	
+	  -webkit-transform-style: preserve-3d;
+	     -moz-transform-style: preserve-3d;
+	      -ms-transform-style: preserve-3d;
+	       -o-transform-style: preserve-3d;
+	          transform-style: preserve-3d;
+	  
+	  position: relative;
+	  margin: 2px;
+	  float: left;
+	}
+	
+	.back, .front {
+	  -webkit-backface-visibility: hidden;
+	     -moz-backface-visibility: hidden;
+	       -o-backface-visibility: hidden;
+	          backface-visibility: hidden;
+	
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  /*border: 1px solid gray;*/
+	  /*border-radius: 4px;*/
+	  /*line-height: 70px;*/
+	  /*color: gray;*/
+	  text-align: center;
+	}
+	
+	.back {
+	  background-color: silver;
+	  font-size: 18px;
+	  z-index: 2;
+	}
+	
+	.front {
+	  background-color: white;
+	  font-size: 36px;
+	  -webkit-transform: rotateY(180deg);
+	     -moz-transform: rotateY(180deg);
+		  -ms-transform: rotateY(180deg);
+		   -o-transform: rotateY(180deg);
+			  transform: rotateY(180deg);
+	}
+	
+	.flipped {
+	  -webkit-transform: rotateY(180deg);
+	     -moz-transform: rotateY(180deg);
+	      -ms-transform: rotateY(180deg);
+	       -o-transform: rotateY(180deg);
+	          transform: rotateY(180deg);
+	}
+	
+	.matched {
+	  -webkit-animation: wiggle 0.6s;
+	}
+	
+	@-webkit-keyframes wiggle {
+	  0% {-webkit-transform: rotateZ(0deg) rotateY(180deg);}
+	  20% {-webkit-transform: rotateZ(15deg) rotateY(180deg);}
+	  40% {-webkit-transform: rotateZ(-15deg) rotateY(180deg);}
+	  60% {-webkit-transform: rotateZ(15deg) rotateY(180deg);}
+	  80% {-webkit-transform: rotateZ(-15deg) rotateY(180deg);}
+	  100% {-webkit-transform: rotateZ(0deg) rotateY(180deg);}
+	}
+	
+	keyframes wiggle {
+	  0% {transform: rotateZ(0deg) rotateY(180deg);}
+	  20% {transform: rotateZ(15deg) rotateY(180deg);}
+	  40% {transform: rotateZ(-15deg) rotateY(180deg);}
+	  60% {transform: rotateZ(15deg rotateY(180deg));}
+	  80% {transform: rotateZ(-15deg) rotateY(180deg);}
+	  100% {transform: rotateZ(0deg) rotateY(180deg);}
+	}
+	
+	.clearit {
+	  float: none;
+	  clear: both;
+	}
+	</style>
+	
+	<div class="hc_initial_view">		
+		<a href="#" id="hc_expand" onclick="jQuery.hc_rm.expand(event); return false;">		
+			<img class="hc_banner hc_blockimg" src="images/florida/33959.png" style="width:300px;height:50px;" />
+		</a>	
+
+	</div> <!-- end initial view content -->
+	
+	<div class="hc_content" id="hc_content" style="display:none;">
+		<div class="hc_closebtn" id="hc_closebtn" style="display:none;" onclick="jQuery.hc_rm.collapse(event); return false;">
+			<img src="images/florida/33961.png" />
+		</div>
+		
+		<div id="header">
+			<div id="timer" class="label" style=""><span class="timer_left">30</span>SEGUNDOS</div>
+		</div>
+		
+		<div id="directions" class="nongame" onclick='startGame();'>
+			<img src="images/florida/33963.png" />
+		</div>
+		
+		<div id="try_again" class="nongame" style="display: none;" onclick='startGame();'>
+			<img src="images/florida/33967.png" />
+		</div>
+		
+		<div id="win" class="nongame" style="display: none;">
+			<a id="how_to_play" class="hc_ci" data-trackinglabel="click_through" href="#">
+				<img src="images/florida/33975.png" />
+			</a>
+			<img id="play_again" src="images/florida/33970.png" onclick="startGame();" />
+		</div>
+		
+		<div id="info" class="nongame" style="display: none;" onclick="$(this).hide();">
+			<img src="images/florida/33968.png" />
+		</div>
+	
+		<div class="markup" style="">
+			<div id="card_field"></div>
+		</div>
+ 	</div><!-- end reveal content -->
+
+	<script type="text/javascript">
+		
+		/* DO NOT USE slashes for comments. */
+		/* use .toggle to reveal from left to right, down */
+		/* use .slideToggle to reveal from top to bottom */
+		/* any closing html tags must have the forward slash escaped,e.g. <\/div> */
+	
+		(function ($) {		
+			
+			var fifheight;
+					
+			$.hc_rm = {
+				getQP: function (p) {
+					if(window.location && typeof window.location.search === "string") {
+						var qArray = window.location.search.substr(1).split("&"),qParam,i;
+						for(i=0; i<qArray.length; i++) {
+							qParam = qArray[i].split("=");
+							if(qParam.length === 2 && qParam[0] === p) {
+								return unescape(qParam[1]);
+							}
+						}
+					}
+					return false;
+				},
+				getSQP: function(p) {
+					//var scriptSrc = $("script[src*='as.aug.me']").attr('src');
+                    var scriptSrc = "";
+					//var tmp = scriptSrc.split("?");
+                    var tmp = "";
+					if(tmp.length > 1) {
+						var qArray = tmp[1].split("&"),qParam,i;
+						for(i=0; i<qArray.length; i++) {
+							qParam = qArray[i].split("=");
+							if(qParam.length === 2 && qParam[0] === p) {
+								return unescape(qParam[1]);
+							}
+						}
+					}
+					return false;
+				},
+				expand: function (e) {				
+					if (!e) { e = window.event; }
+					e.cancelBubble = true;
+					if (e.stopPropagation) e.stopPropagation();	
+					/* FIF support */
+					if(window.inDapIF === true) {
+						$("iframe",parent.document).each(function(iel, el){
+							if(el.contentWindow === window) {
+								fifheight = $(el).css("height");
+								$(el).css("height","428px");
+								return false;
+							}
+						});
+					}
+					
+					$("#how_to_play").attr("href", "http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=20&mc=click&pli=8064393&PluID=0&ord="+new Date().getTime());
+					
+					/* mraid function call */
+					if(typeof mraid !== "undefined") {
+						mraid.useCustomClose(true);
+						mraid.expand();
+					}					
+					/* animations for expand */
+					$("#hc_richmedia .hc_content").show();
+					$("#hc_richmedia .hc_closebtn").show();
+					$("#hc_richmedia .hc_initial_view").hide();
+					
+					/* Hip expansion tracking */				
+					/*$("#hc_richmedia").append('<img src="#trk:expansion#?cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');	*/
+					
+					/* 3rd party expansion tracker */
+     				if(this.getSQP('exp') !== false) {
+     					/*$("#hc_richmedia").append('<img src="'+decodeURIComponent(this.getSQP('exp'))+'&cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');*/
+     				}
+     								
+					return false;
+				},
+				collapse: function(e) {
+					if (!e) { e = window.event; }
+					e.cancelBubble = true;
+					if (e.stopPropagation) e.stopPropagation();	
+					/* FIF support */
+					if(window.inDapIF === true) {
+						$("iframe",parent.document).each(function(iel, el){
+							if(el.contentWindow === window) {
+								$(el).css("height",fifheight);
+								return false;
+							}
+						});
+					}				
+					/* mraid function call */
+					if(typeof mraid !== "undefined") {
+						mraid.close();
+					}					
+					/* animations for collapse */
+					$("#hc_richmedia .hc_initial_view").show();
+					$("#hc_richmedia .hc_content").hide();
+					$("#hc_richmedia .hc_closebtn").hide();
+					/*$("#hc_richmedia").append('<img src="#trk:collapse#?cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');*/						
+					return false;													
+				},
+				engage: function(e) {
+					if (!e) { e = window.event; }
+					e.cancelBubble = true;
+					if (e.stopPropagation) e.stopPropagation();
+					/*$("#hc_richmedia").append('<img src="#trk:engage#?cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');*/
+					return false;
+				}
+			};
+		}(jQuery));
+		
+		(function ($) {
+			"use strict";
+
+			/* borrowed from modernizr script
+			check if we fully support the card-flip animation */
+			var support_flip, style_prop = "transform-style";
+
+			if ('webkitTransformStyle' in document.documentElement.style) {
+				style_prop = '-webkit-' + style_prop;
+			}
+
+			support_flip = $('<div>').css(style_prop, "preserve-3d");
+
+			if (support_flip.css(style_prop) === "preserve-3d") {
+				support_flip = true;
+			} else {
+				support_flip = false;
+				$(".card .front").css({
+					'-webkit-transform': 'rotateY(0deg)',
+					'-moz-transform': 'rotateY(0deg)',
+					'-ms-transform': 'rotateY(0deg)',
+					'-o-transform': 'rotateY(0deg)',
+					'transform': 'rotateY(0deg)'
+				});
+			}
+
+			window.supportFlip = support_flip;
+
+			$.fn.matchGame = function (options) {
+
+				var config = $.extend({}, $.fn.matchGame.defaults, options);
+
+				function card_face_markup(side, contents) {
+					var ret, tmp;
+					if (contents.match(/^https?:/)) {
+						tmp = contents.split('/');
+						tmp = tmp.pop();
+
+						ret = '<img src="' + contents + '" alt="' + tmp + '" title="' + tmp + '">';
+					} else {
+						ret = contents;
+					}
+
+					return '<div class="' + side + '">' + ret + '<\/div>';
+				}
+
+				function build_card(face, index) {
+					return '<div class="card" data-idx="' + index + '">' + card_face_markup("back", config.back) + card_face_markup("front", face) + '<\/div>';
+				}
+
+				/* basic Fisher-Yates shuffle algorithm */
+				function shuffle_deck(deck) {
+					var i, p, tmp;
+
+					i = deck.length;
+					while (i > 0) {
+						/* pick a remaining element */
+						p = Math.floor(Math.random() * i);
+						i -= 1;
+
+						/* and swap it with the current element */
+						tmp = deck[i];
+						deck[i] = deck[p];
+						deck[p] = tmp;
+					}
+
+						/* although the shuffling is done in-place, we return a pointer to the array for convenience */
+					return deck;
+				}
+
+				function build_deck() {
+					var deck, size, p, i;
+
+					/* do we know the height of the playing field? */
+					if (config.height === "auto") {
+						/* use all defined card faces, but keep in mind we want a perfect grid */
+						size = config.faces.length * config.match;
+						size -= size % config.width;
+					} else {
+						/* limit deck to height * width */
+						size = config.width * config.height;
+					}
+
+					deck = [];
+					p = 0;
+					while (deck.length < size) {
+						/* if there's room, push a set of matching cards onto the deck */
+						if (deck.length + config.match <= size) {
+							for (i=0; i<config.match; i++) {
+								deck.push(build_card(config.faces[p], p));
+							}
+						} else {
+							/* there's no room for a match, so we'll place some "stumpers" */
+							deck.push(build_card(config.faces[p], "stumper"));
+						}
+
+						p = (p + 1) % config.faces.length;
+					}
+
+						/* shuffle the deck */
+					return shuffle_deck(deck);
+				}
+				
+				function pad_zeroes(number, pad_length) {
+
+					var padded_number = number.toString();
+
+					if (!pad_length) {
+						pad_length = 2;
+					}
+
+					while (padded_number.length < pad_length) {
+						padded_number = "0" + padded_number;
+					}
+
+					return padded_number;
+				}
+
+				return this.each(function () {
+
+					var field = $(this),
+						deck = build_deck(),
+						flipping = false,
+						timer_obj,
+						stumpers = 0;
+
+					function timer_tick(time_left) {
+						if (time_left < 0) {
+							/* game over; time is up. */
+							config.lose();
+							return;
+						} else if (time_left < 6) {
+							$("#timer").css('background', 'url("images/florida/33973.png") no-repeat scroll left top / cover rgba(0, 0, 0, 0)');
+							$("#timer").css('color', '#ffffff');
+						}
+
+						/* get mm:ss readout for the clock. */
+						var minute = Math.floor(time_left / 60),
+							second = pad_zeroes(time_left % 60, 2);
+
+						/*$(config.timer).html(minute + ":" + second); */
+						$(config.timer).html("<span class='timer_left'>" + second + "<\/span>SEGUNDOS");
+
+						timer_obj = window.setTimeout(function () {
+							timer_tick(time_left - 1);
+						}, 1000);
+					}
+
+				/* deal the cards */
+					$.each(deck, function (i, val) {
+						if (i > 0 && i % config.width === 0) {
+							field.append('<div class="clearit">');
+						}
+
+						field.append(val);
+					});
+
+					$(".card", field).bind("click", function () {
+						if (flipping || $(this).hasClass("over")) {
+							return;
+						}
+
+						flipping = true;
+
+						config.flipOver($(this));
+
+						var transition_duration = $(this).css("transition-duration") || $(this).css("-webkit-transition-duration");
+
+						if (transition_duration.match(/^[\d\.]+s$/)) {
+							transition_duration = parseFloat(transition_duration.replace(/s$/, '') * 1000);
+						} else {
+							transition_duration = 0;
+						}
+
+						window.setTimeout(function () {
+							if ($(this).data("idx") === "stumper") {
+								/* uncovered a stumper. */
+								config.stumper();
+
+								field.find(".over:not(.matched)").each(function () {
+									config.flipBack($(this));
+								});
+
+								if (config.stumperLimit && stumpers >= config.stumperLimit()) {
+									config.lose();
+								}
+							}
+
+							if (field.find(".over:not(.matched)").length >= config.match) {
+								/* check if we have a match */
+
+								var idx = -1, match = true;
+
+								field.find(".over:not(.matched)").each(function () {
+									if (idx < 0) {
+										idx = $(this).data("idx");
+									} else if ($(this).data("idx") !== idx) {
+										match = false;
+										return false;
+									}
+								});
+
+								if (match) {
+									field.find(".over:not(.matched)").addClass("matched");
+									
+									if (field.find(".card:not([data-idx='stumper'],.matched)").length === 0) {
+										window.clearTimeout(timer_obj);
+										config.win();
+									}
+								} else {
+									field.find(".over:not(.matched)").each(function () {
+										config.flipBack($(this));
+									});
+								}
+							}
+
+							flipping = false;
+						}, transition_duration + 100);
+					});
+
+					/* set the timer, if one exists */
+					if (config.timeLimit) {
+						timer_tick(config.timeLimit);
+					}
+				});
+			};
+
+			$.fn.matchGame.defaults = {
+				match: 2,
+				width: 4,
+				height: "auto",
+				timeLimit: false,
+				timer: "#timer",
+				stumperLimit: false,
+				back: "<img src='images/florida/33960.png'>",
+				faces: ["<img src='images/florida/33957.png'>",
+				        "<img src='images/florida/33962.png'>",
+				        "<img src='images/florida/33964.png'>",
+				        "<img src='images/florida/33965.png'>",
+				        "<img src='images/florida/33966.png'>",
+				        "<img src='images/florida/33969.png'>",
+				        "<img src='images/florida/33971.png'>",
+				        "<img src='images/florida/33974.png'>"],
+				flipOver: function (card) {
+					if (window.supportFlip) {
+						card.addClass("flipped over");
+					} else {
+						card.addClass("over");
+						card.find(".back").hide();
+						card.find(".front").show();
+					}
+				},
+				flipBack: function (card) {
+					if (window.supportFlip) {
+						card.removeClass("flipped over");
+					} else {
+						card.removeClass("over");
+						card.find(".back").show();
+						card.find(".front").hide();
+					}
+				},
+				stumper: function () {
+					alert("Uh oh, that doesn't match anything");
+				},
+				win: function () {
+					/*alert('YOU DID IT!');*/
+					$('#win').show();
+					/*$("#hc_richmedia").append('<img src="#trk:game_winner#?cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');*/
+				},
+				lose: function () {
+					/*alert('Too bad. Try again.');*/
+					$('#try_again').show();
+					/*$("#hc_richmedia").append('<img src="#trk:game_timeup#?cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');*/
+				}
+			};
+
+		}(jQuery));
+		
+		function startGame() {
+			$('.nongame').hide();
+			$('#card_field').html('');
+			$("#timer").css('background', 'url("images/florida/33972.png") no-repeat scroll left top / cover rgba(0, 0, 0, 0)');
+			$("#timer").css('color', '#000000');
+			$("#card_field").matchGame({timeLimit: 30});
+			/*$("#hc_richmedia").append('<img src="#trk:start_game#?cb='+new Date().getTime()+'" style="position:absolute;height:1px;width:1px;" />');*/
+		}
+		
+		/* Add mraid lister */
+		if(typeof mraid !== "undefined") {
+			mraid.addEventListener("stateChange", handleStateChanges);
+		}
+		
+		/* Mraid Handle State Change */
+		function handleStateChanges() {
+
+			switch(mraid.getState()) {
+				case "expanded":
+					jQuery.hc_rm.expand();
+					break;
+				case "default":
+					jQuery.hc_rm.collapse();
+					break;
+			}
+			
+		}
+	
+		$(document).ready(function() {
+			$(".hc_ci").bind("click",function(e){
+
+				e.preventDefault();
+				e.stopPropagation();
+
+				var label = $(this).data("trackinglabel");
+				var url = $(this).attr("href");
+
+				var i = new Image();
+
+				i.onload = function(){
+					window.location = url;
+				};
+		
+				i.src = "";
+		
+			});
+			
+			/*var i = new Image();
+			i.src = 'http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=8064393&PluID=0&ord='+new Date().getTime()+'&rtu=-1';*/
+		});
+	</script>
+	
+</div><!-- end required wrapper -->
